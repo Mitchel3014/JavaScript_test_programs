@@ -1,0 +1,73 @@
+﻿<meta charset="UTF-8">
+<script>
+
+function getRandomInt (min, max) {
+return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function getCard () {
+var cards = ["2","3","4","5","6","7","8","9","10","V","Q","K","A"]
+return cards[getRandomInt (0, cards.length-1)];
+}
+
+function getSum(arr) {
+var sum=0;
+for (var i=0; i<arr.length; i++) {
+var c = arr[i];
+if (c!="A"){
+if (c=="V" || c=="Q" || c=="K") {
+sum = sum+10;
+} else {
+sum = sum+parseInt(c);
+}
+}
+}
+for (var i=0; i<arr.length; i++) {
+var c = arr[i];
+if (c=="A"){
+if (sum>10) {
+sum = sum+1;
+} else {
+sum = sum+11;
+}
+}
+}
+return(sum);
+}
+function getPlayersCards() {
+return ("Карты дилера: " +dealer +" Карты игрока: " +player);
+}
+function getStatus() {
+return ("Сумма на картах дилера: " +getSum(dealer) +" Сумма на картах игрока: " +getSum(player));
+}
+var dealer = [getCard ()];
+var player = [getCard (),getCard ()];
+alert (getPlayersCards());
+alert (getStatus());
+while (prompt("Введите 1, чтобы добрать карту, иное, чтобы открыться: ") == "1") {
+player.push (getCard ());
+alert (getPlayersCards());
+alert (getStatus());
+if (getSum(player)>21) {
+alert ("Перебор. Проиграл!");
+break;
+}
+}
+if (getSum(player)<=21) {
+do {
+dealer.push (getCard ());
+alert (getPlayersCards());
+} while (getSum(dealer)<17);
+alert (getStatus());
+if (getSum(dealer)>21){
+alert ("Перебор у Дилера. Ты выиграл!")
+} else if (getSum(dealer)==getSum(player)){
+alert ("Ничья!")
+} else if (getSum(dealer) > getSum(player)) {
+alert ("У Дилера больше. Проиграл!");
+} else {
+alert ("BlackJack!");
+}
+}
+//alert("Конец")
+</script>
